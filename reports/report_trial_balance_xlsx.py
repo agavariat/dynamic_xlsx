@@ -240,7 +240,7 @@ class InsTrialBalanceXlsx(models.AbstractModel):
                     self.row_pos += 1
                     blank_space = '   ' * len(line.get('indent_list'))
                     if line.get('dummy'):
-                        self.sheet.write_string(self.row_pos, 0,  blank_space + line.get('code'),
+                        self.sheet.write_string(self.row_pos, 0,  blank_space + line.get('code_string'),
                                                 self.line_header_light_left)
                     else:
                         self.sheet.write_string(self.row_pos, 0, blank_space + line.get('code') + ' ' + line.get('name'),
