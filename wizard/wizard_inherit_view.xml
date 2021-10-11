@@ -57,5 +57,16 @@
             print_report_name="'TrialBalance - %s/%s' % (object.date_from,object.date_to)"
         />
 
+        <report
+            id="action_ins_partner_group_xlsx"
+            model="ins.partner.group"
+            string="Partner Group"
+            report_type="xlsx"
+            name="dynamic_xlsx.ins_partner_group_xlsx"
+            file="dynamic_xlsx.ins_partner_group_xlsx"
+            attachment_use="False"
+            print_report_name="'PartnerGroup - %s/%s' % (object.date_from,object.date_to)"
+        />
+
     </data>
 </odoo>
