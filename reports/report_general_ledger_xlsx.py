@@ -247,8 +247,8 @@ class InsGeneralLedgerXlsx(models.AbstractModel):
                 self.sheet.write_number(self.row_pos, 7, float(acc_lines[line].get('balance')), self.line_header)
 
                 if filter.get('include_details', False):
-                    account_id = acc_lines[line].get('id')
-                    count, offset, sub_lines = self.record.build_detailed_move_lines(offset=0, account=account_id,
+
+                    count, offset, sub_lines = self.record.build_detailed_move_lines(offset=0, account=line,
                                                                                      fetch_range=1000000)
 
                     for sub_line in sub_lines:
@@ -256,11 +256,11 @@ class InsGeneralLedgerXlsx(models.AbstractModel):
                             self.row_pos += 1
                             self.sheet.write_string(self.row_pos, 4, sub_line.get('move_name'),
                                                     self.line_header_light_initial)
-                            self.sheet.write_number(self.row_pos, 5, float(sub_line.get('debit')),
+                            self.sheet.write_number(self.row_pos, 5, float(acc_lines[line].get('debit')),
                                                     self.line_header_light_initial)
-                            self.sheet.write_number(self.row_pos, 6, float(sub_line.get('credit')),
+                            self.sheet.write_number(self.row_pos, 6, float(acc_lines[line].get('credit')),
                                                     self.line_header_light_initial)
-                            self.sheet.write_number(self.row_pos, 7, float(sub_line.get('balance')),
+                            self.sheet.write_number(self.row_pos, 7, float(acc_lines[line].get('balance')),
                                                     self.line_header_light_initial)
                         elif sub_line.get('move_name') not in ['Initial Balance','Ending Balance']:
                             self.row_pos += 1

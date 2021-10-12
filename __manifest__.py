@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
-    'name' : 'Xlsx support on Dynamic Financial Reports v12',
-    'version' : '12.0.2',
+    'name' : 'Xlsx support on Dynamic Financial Reports v13',
+    'version' : '12.0.0.2',
     'summary': 'Xlsx Support module for dynamic reports for odoo v12.',
     'sequence': 15,
     'description': """

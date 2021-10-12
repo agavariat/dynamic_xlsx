@@ -191,28 +191,28 @@ class InsPartnerLedgerXlsx(models.AbstractModel):
                                     self.format_header)
             self.sheet.write_string(self.row_pos, 4, _('Entry Label'),
                                     self.format_header)
-            self.sheet.write_string(self.row_pos, 5, _('Debit'),
-                                    self.format_header)
-            self.sheet.write_string(self.row_pos, 6, _('Credit'),
-                                    self.format_header)
-            self.sheet.write_string(self.row_pos, 7, _('Balance'),
+            # self.sheet.write_string(self.row_pos, 5, _('Debit'),
+            #                         self.format_header)
+            # self.sheet.write_string(self.row_pos, 6, _('Credit'),
+            #                         self.format_header)
+            self.sheet.write_string(self.row_pos, 5, _('Balance'),
                                     self.format_header)
         else:
             self.sheet.merge_range(self.row_pos, 0, self.row_pos, 4, _('Partner'), self.format_header)
-            self.sheet.write_string(self.row_pos, 5, _('Debit'),
-                                    self.format_header)
-            self.sheet.write_string(self.row_pos, 6, _('Credit'),
-                                    self.format_header)
-            self.sheet.write_string(self.row_pos, 7, _('Balance'),
+            # self.sheet.write_string(self.row_pos, 5, _('Debit'),
+            #                         self.format_header)
+            # self.sheet.write_string(self.row_pos, 6, _('Credit'),
+            #                         self.format_header)
+            self.sheet.write_string(self.row_pos, 5, _('Balance'),
                                     self.format_header)
 
         if acc_lines:
             for line in acc_lines:
                 self.row_pos += 1
                 self.sheet.merge_range(self.row_pos, 0, self.row_pos, 4, acc_lines[line].get('name'), self.line_header)
-                self.sheet.write_number(self.row_pos, 5, float(acc_lines[line].get('debit')), self.line_header)
-                self.sheet.write_number(self.row_pos, 6, float(acc_lines[line].get('credit')), self.line_header)
-                self.sheet.write_number(self.row_pos, 7, float(acc_lines[line].get('balance')), self.line_header)
+                # self.sheet.write_number(self.row_pos, 5, float(acc_lines[line].get('debit')), self.line_header)
+                # self.sheet.write_number(self.row_pos, 6, float(acc_lines[line].get('credit')), self.line_header)
+                self.sheet.write_number(self.row_pos, 5, float(acc_lines[line].get('balance')), self.line_header)
 
                 if filter.get('include_details', False):
 
@@ -224,11 +224,11 @@ class InsPartnerLedgerXlsx(models.AbstractModel):
                             self.row_pos += 1
                             self.sheet.write_string(self.row_pos, 4, sub_line.get('move_name'),
                                                     self.line_header_light_initial)
-                            self.sheet.write_number(self.row_pos, 5, float(sub_line.get('debit')),
-                                                    self.line_header_light_initial)
-                            self.sheet.write_number(self.row_pos, 6, float(sub_line.get('credit')),
-                                                    self.line_header_light_initial)
-                            self.sheet.write_number(self.row_pos, 7, float(sub_line.get('balance')),
+                            # self.sheet.write_number(self.row_pos, 5, float(acc_lines[line].get('debit')),
+                            #                         self.line_header_light_initial)
+                            # self.sheet.write_number(self.row_pos, 6, float(acc_lines[line].get('credit')),
+                            #                         self.line_header_light_initial)
+                            self.sheet.write_number(self.row_pos, 5, float(acc_lines[line].get('balance')),
                                                     self.line_header_light_initial)
                         elif sub_line.get('move_name') not in ['Initial Balance','Ending Balance']:
                             self.row_pos += 1
@@ -244,21 +244,21 @@ class InsPartnerLedgerXlsx(models.AbstractModel):
                                                     self.line_header_light)
                             self.sheet.write_string(self.row_pos, 4, sub_line.get('lname') or '',
                                                     self.line_header_light)
+                            # self.sheet.write_number(self.row_pos, 5,
+                            #                         float(sub_line.get('debit')),self.line_header_light)
+                            # self.sheet.write_number(self.row_pos, 6,
+                            #                         float(sub_line.get('credit')),self.line_header_light)
                             self.sheet.write_number(self.row_pos, 5,
-                                                    float(sub_line.get('debit')),self.line_header_light)
-                            self.sheet.write_number(self.row_pos, 6,
-                                                    float(sub_line.get('credit')),self.line_header_light)
-                            self.sheet.write_number(self.row_pos, 7,
                                                     float(sub_line.get('balance')),self.line_header_light)
                         else: # Ending Balance
                             self.row_pos += 1
                             self.sheet.write_string(self.row_pos, 4, sub_line.get('move_name'),
                                                     self.line_header_light_ending)
-                            self.sheet.write_number(self.row_pos, 5, float(acc_lines[line].get('debit')),
-                                                    self.line_header_light_ending)
-                            self.sheet.write_number(self.row_pos, 6, float(acc_lines[line].get('credit')),
-                                                    self.line_header_light_ending)
-                            self.sheet.write_number(self.row_pos, 7, float(acc_lines[line].get('balance')),
+                            # self.sheet.write_number(self.row_pos, 5, float(acc_lines[line].get('debit')),
+                            #                         self.line_header_light_ending)
+                            # self.sheet.write_number(self.row_pos, 6, float(acc_lines[line].get('credit')),
+                            #                         self.line_header_light_ending)
+                            self.sheet.write_number(self.row_pos, 5, float(acc_lines[line].get('balance')),
                                                     self.line_header_light_ending)
 
     def _format_float_and_dates(self, currency_id, lang_id):
