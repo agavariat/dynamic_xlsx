@@ -110,6 +110,7 @@ class InsPartnerGroupXlsx(models.AbstractModel):
             'font_size': 10,
             'align': 'right',
             'font': 'Arial',
+            #'bg_color': '#dddddd'
         })
         self.line_header_light_total = workbook.add_format({
             'bold': False,
@@ -130,6 +131,7 @@ class InsPartnerGroupXlsx(models.AbstractModel):
             'font_size': 10,
             'align': 'right',
             'font': 'Arial',
+            'bg_color': '#dddddd'
         })
         self.line_header_light_date = workbook.add_format({
             'bold': False,
@@ -244,17 +246,17 @@ class InsPartnerGroupXlsx(models.AbstractModel):
                     self.sheet.write_number(self.row_pos, 9, float(acc_lines[line].get('ending_balance')), self.line_header_highlight)
 
                     self.row_pos += 1
-                    if acc_lines[line]['sub_lines']:
-                        self.row_pos += 1
-                        self.sheet.write_string(self.row_pos, 1, 'Partner', self.format_header_color)
-                        self.sheet.write_string(self.row_pos, 2, 'Analytic', self.format_header_color)
-                        self.sheet.write_string(self.row_pos, 3, 'Initial Balance', self.format_header_color)
-                        self.sheet.write_string(self.row_pos, 4, 'Debit', self.format_header_color)
-                        self.sheet.write_string(self.row_pos, 5, 'Credit', self.format_header_color)
-                        self.sheet.write_string(self.row_pos, 6, 'Balance', self.format_header_color)
-                        self.sheet.write_string(self.row_pos, 7, '', self.format_header_color)
-                        self.sheet.write_string(self.row_pos, 8, '', self.format_header_color)
-                        self.sheet.write_string(self.row_pos, 9, 'Ending Balance', self.format_header_color)
+                    # if acc_lines[line]['sub_lines']:
+                    #     self.row_pos += 1
+                    #     self.sheet.write_string(self.row_pos, 1, 'Partner', self.format_header_color)
+                    #     self.sheet.write_string(self.row_pos, 2, 'Analytic', self.format_header_color)
+                    #     self.sheet.write_string(self.row_pos, 3, 'Initial Balance', self.format_header_color)
+                    #     self.sheet.write_string(self.row_pos, 4, 'Debit', self.format_header_color)
+                    #     self.sheet.write_string(self.row_pos, 5, 'Credit', self.format_header_color)
+                    #     self.sheet.write_string(self.row_pos, 6, 'Balance', self.format_header_color)
+                    #     self.sheet.write_string(self.row_pos, 7, '', self.format_header_color)
+                    #     self.sheet.write_string(self.row_pos, 8, '', self.format_header_color)
+                    #     self.sheet.write_string(self.row_pos, 9, 'Ending Balance', self.format_header_color)
                     for partner_line in acc_lines[line]['sub_lines']:
                         self.row_pos += 1
                         self.sheet.write_string(self.row_pos, 1, partner_line.get('partner_name','') or '----', self.line_header_light_left)
