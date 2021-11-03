@@ -29,8 +29,8 @@ DATE_DICT = {
     '%e-%f-%y' : 'd-m-yy'
 }
 
-class InsTrialBalanceXlsx(models.AbstractModel):
-    _name = 'report.dynamic_xlsx.ins_trial_balance_xlsx'
+class InsPartnerGroupXlsx(models.AbstractModel):
+    _name = 'report.dynamic_xlsx.ins_partner_group_xlsx'
     _inherit = 'report.report_xlsx.abstract'
 
     def _define_formats(self, workbook):
@@ -50,6 +50,13 @@ class InsTrialBalanceXlsx(models.AbstractModel):
             'font_size': 10,
             'font': 'Arial',
             #'border': True
+        })
+        self.format_header_color = workbook.add_format({
+            'bold': True,
+            'font_size': 10,
+            'font': 'Arial',
+            # 'border': True,
+            'bg_color': '#dddddd'
         })
         self.format_merged_header = workbook.add_format({
             'bold': True,
@@ -103,6 +110,7 @@ class InsTrialBalanceXlsx(models.AbstractModel):
             'font_size': 10,
             'align': 'right',
             'font': 'Arial',
+            #'bg_color': '#dddddd'
         })
         self.line_header_light_total = workbook.add_format({
             'bold': False,
@@ -123,6 +131,7 @@ class InsTrialBalanceXlsx(models.AbstractModel):
             'font_size': 10,
             'align': 'right',
             'font': 'Arial',
+            'bg_color': '#dddddd'
         })
         self.line_header_light_date = workbook.add_format({
             'bold': False,
@@ -235,6 +244,29 @@ class InsTrialBalanceXlsx(models.AbstractModel):
                     self.sheet.write_number(self.row_pos, 7, float(acc_lines[line].get('ending_debit')), self.line_header_light)
                     self.sheet.write_number(self.row_pos, 8, float(acc_lines[line].get('ending_credit')), self.line_header_light)
                     self.sheet.write_number(self.row_pos, 9, float(acc_lines[line].get('ending_balance')), self.line_header_highlight)
+
+                    self.row_pos += 1
+                    # if acc_lines[line]['sub_lines']:
+                    #     self.row_pos += 1
+                    #     self.sheet.write_string(self.row_pos, 1, 'Partner', self.format_header_color)
+                    #     self.sheet.write_string(self.row_pos, 2, 'Analytic', self.format_header_color)
+                    #     self.sheet.write_string(self.row_pos, 3, 'Initial Balance', self.format_header_color)
+                    #     self.sheet.write_string(self.row_pos, 4, 'Debit', self.format_header_color)
+                    #     self.sheet.write_string(self.row_pos, 5, 'Credit', self.format_header_color)
+                    #     self.sheet.write_string(self.row_pos, 6, 'Balance', self.format_header_color)
+                    #     self.sheet.write_string(self.row_pos, 7, '', self.format_header_color)
+                    #     self.sheet.write_string(self.row_pos, 8, '', self.format_header_color)
+                    #     self.sheet.write_string(self.row_pos, 9, 'Ending Balance', self.format_header_color)
+                    for partner_line in acc_lines[line]['sub_lines']:
+                        self.row_pos += 1
+                        self.sheet.write_string(self.row_pos, 1, partner_line.get('partner_name','') or '----', self.line_header_light_left)
+                        self.sheet.write_string(self.row_pos, 2, partner_line.get('analytic','') or '----', self.line_header_light_left)
+                        self.sheet.write_number(self.row_pos, 3, partner_line.get('init_balance', 0), self.line_header_light)
+                        self.sheet.write_number(self.row_pos, 4, partner_line.get('debit', 0), self.line_header_light)
+                        self.sheet.write_number(self.row_pos, 5, partner_line.get('credit', 0), self.line_header_light)
+                        self.sheet.write_number(self.row_pos, 6, partner_line.get('balance', 0), self.line_header_light)
+                        self.sheet.write_number(self.row_pos, 9, partner_line.get('balance_ending', 0), self.line_header_light)
+                    self.row_pos += 1
             else:
                 for line in acc_lines: # Normal lines
                     self.row_pos += 1
@@ -304,7 +336,7 @@ class InsTrialBalanceXlsx(models.AbstractModel):
         self._define_formats(workbook)
         self.row_pos = 0
         self.row_pos_2 = 0
-        self.sheet = workbook.add_worksheet('General Ledger')
+        self.sheet = workbook.add_worksheet('Trial Balance with partner')
         self.sheet_2 = workbook.add_worksheet('Filters')
         self.sheet.set_column(0, 0, 30)
         self.sheet.set_column(1, 1, 15)
@@ -339,7 +371,7 @@ class InsTrialBalanceXlsx(models.AbstractModel):
 
         if record:
             data = record.read()
-            self.sheet.merge_range(0, 0, 0, 10, 'Trial Balance'+' - '+data[0]['company_id'][1], self.format_title)
+            self.sheet.merge_range(0, 0, 0, 10, 'Trial Balance with partner'+' - '+data[0]['company_id'][1], self.format_title)
             self.dateformat = self.env.user.lang
             filters, account_lines, retained, subtotal = record.get_report_datas()
 

@@ -61,3 +61,14 @@ class InsTrialBalance(models.TransientModel):
         return self.env.ref(
             'dynamic_xlsx'
             '.action_ins_trial_balance_xlsx').report_action(self)
+
+
+class InsPartnerGroup(models.TransientModel):
+    _inherit = "ins.partner.group"
+    _description = "Partner Group Reports"
+
+    def action_xlsx(self):
+        ''' Button function for Xlsx '''
+        return self.env.ref(
+            'dynamic_xlsx'
+            '.action_ins_partner_group_xlsx').report_action(self)
